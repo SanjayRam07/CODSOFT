@@ -18,7 +18,7 @@ public class Transaction {
 
     @JsonIgnore
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer Id;
+    private int Id;
 
     @Id
     @JsonIgnore
