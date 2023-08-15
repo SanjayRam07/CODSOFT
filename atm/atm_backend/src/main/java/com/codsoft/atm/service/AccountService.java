@@ -15,9 +15,6 @@ public class AccountService {
     @Autowired
     AccountRepo accountRepo;
 
-    @Autowired
-    AccountValidate accountValidate;
-
     public Account findByAccNo(String accNo) {
         return accountRepo.findByAccNo(accNo);
     }
@@ -32,7 +29,7 @@ public class AccountService {
     }
 
     public boolean deleteAccount(Account account, String password) {
-        if(accountValidate.validate(account.getAccNo(), password)) {
+        if(this.validate(account.getAccNo(), password)) {
             accountRepo.delete(account);
             return true;
         }
@@ -40,7 +37,7 @@ public class AccountService {
     }
 
     public boolean updateAccountBalance(String accNo,  String password, int balance) {
-        if(accountValidate.validate(accNo, password)) {
+        if(this.validate(accNo, password)) {
             Account oldAcc=accountRepo.findByAccNo(accNo);
             oldAcc.setBalance(balance);
             accountRepo.save(oldAcc);
@@ -50,7 +47,7 @@ public class AccountService {
     }
 
     public boolean depositBalance(String accNo,  String password, int balance) {
-        if(accountValidate.validate(accNo, password)) {
+        if(this.validate(accNo, password)) {
             Account oldAcc=accountRepo.findByAccNo(accNo);
             oldAcc.setBalance(oldAcc.getBalance() + balance);
             accountRepo.save(oldAcc);
@@ -60,7 +57,7 @@ public class AccountService {
     }
 
     public boolean withdrawBalance(String accNo,  String password, int balance) {
-        if(accountValidate.validate(accNo, password)) {
+        if(this.validate(accNo, password)) {
             Account oldAcc=accountRepo.findByAccNo(accNo);
             oldAcc.setBalance(oldAcc.getBalance() - balance);
             accountRepo.save(oldAcc);
@@ -70,7 +67,7 @@ public class AccountService {
     }
 
     public boolean transferBalance(String accFrom, String accTo, String password, int amt) {
-        if(accountValidate.validate(accFrom, password)) {
+        if(this.validate(accFrom, password)) {
             Account accountFrom=accountRepo.findByAccNo(accFrom);
             accountFrom.setBalance(accountFrom.getBalance() - amt);
             Account accountTo=accountRepo.findByAccNo(accTo);
@@ -81,7 +78,7 @@ public class AccountService {
     }
 
     public boolean updateAccountPassword(String accNo, String oldPassword, String newPassword) {
-        if(accountValidate.validate(accNo, oldPassword)) {
+        if(this.validate(accNo, oldPassword)) {
             Account oldAcc=accountRepo.findByAccNo(accNo);
             oldAcc.setPassword(newPassword);
             accountRepo.save(oldAcc);
@@ -107,6 +104,14 @@ public class AccountService {
             setAccountNo(account);
         else 
             account.setAccNo(accNum);
+    }
+
+    public boolean validate(String accNo, String password) {
+        Account account=accountRepo.findByAccNo(accNo);
+        if(account.getPassword()==null || account.getPassword().equals(password)) 
+            return true;
+        else
+            return false;
     }
 
 }

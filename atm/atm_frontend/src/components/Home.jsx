@@ -1,19 +1,19 @@
 import { useEffect, useState } from "react"
-import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 
-export const Home = () => {
+export const Home = ({ id ,password }) => {
     const [data, setData] = useState([]);
-    const { id } = useParams();
+    const user = useSelector((state) => state.user.value)
 
     useEffect(() => {
         const getProducts = async() => {
-            console.log(id);
-            let response = await fetch("http://localhost:5000/account/getAccount?accNo="+id);
+            console.log(user);
+            let response = await fetch("http://localhost:5000/account/getAccount?accNo="+user.id);
             setData(await response.json());
         }
 
         getProducts();
-    }, []);
+    }, [id]);
 
     return (
         <>

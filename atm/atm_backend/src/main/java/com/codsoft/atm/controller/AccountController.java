@@ -68,4 +68,9 @@ public class AccountController {
         if(status) return "Account updated";
         else return "Account update failed";
     }
+
+    @PostMapping("/signin")
+    public boolean signin(@RequestParam String accNo, @RequestParam String password) {
+        return accountService.validate(accNo, password);
+    }
 }
