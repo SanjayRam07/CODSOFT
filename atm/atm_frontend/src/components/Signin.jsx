@@ -32,7 +32,9 @@ export const Signin = () => {
             </div>
             <span></span>
             <div class="row col-3 g-3">
-                <NavLink to='/home' onClick={() => dispatch(signin({id:id, pwd:password})) } type="submit" class="btn btn-primary">Sign In</NavLink>
+                <NavLink class="nav-link btn btn-primary" to='/home' onClick={() => dispatch(signin({id:id, pwd:password})) } type="submit">
+                    <button className="btn btn-primary">Sign In</button>
+                </NavLink>
                 <NavLink to="/signup" type="submit" class="btn btn-secondary">Sign Up</NavLink>
             </div>
         </form>

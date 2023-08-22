@@ -43,7 +43,7 @@ export const Signup = () => {
                     <input class="form-check-input" type="checkbox" id="gridCheck"/> 
                 </div>
                 <div class="col">    
-                    <label class="form-check-label" for="gridCheck">not a robot</label>
+                    <label class="form-check-label" for="gridCheck"><a href="#"> Accept terms & conditions</a> </label>
                 </div>
             </div>
             <span></span>
