@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom"
 import Navbar from './Navbar';
 
-export default function Deposit() {
+export default function Deposit( { refreshData, handleRefreshData } ) {
 
   const [amt, setAmt] = useState("");
   const [password, setPassword] = useState("");
@@ -20,6 +20,7 @@ export default function Deposit() {
             "Content-Type":"application/json"
         }
     });
+    await handleRefreshData(!refreshData);
   }
 
   return (

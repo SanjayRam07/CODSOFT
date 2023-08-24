@@ -5,7 +5,7 @@ import { json, useNavigate, useNavigation } from 'react-router-dom';
 import Navbar from "./Navbar";
 import { useCallback } from "react";
 
-export const Home = () => {
+export const Home = ( {refreshData} ) => {
   const [userData, setUserData] = useState({});
   const user = useSelector((state) => state.user.value);
 
@@ -24,9 +24,10 @@ export const Home = () => {
               }
           }
       };
+      console.log(refreshData);
 
       fetchData();
-  });
+  }, [refreshData]);
 
   let sessionJson = sessionStorage.getItem("user");
   let sessionValue = null;
