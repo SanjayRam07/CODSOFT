@@ -3,6 +3,8 @@ package com.codsoft.atm.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.codsoft.atm.dao.DepositDao;
+import com.codsoft.atm.dao.WithdrawDao;
 import com.codsoft.atm.model.Transaction;
 import com.codsoft.atm.service.AccountService;
 import com.codsoft.atm.service.TransactionService;
@@ -12,6 +14,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
@@ -26,18 +29,18 @@ public class TransactionController {
     TransactionService transactionService;
     
     @PostMapping(value="/deposit")
-    public String deposit(@RequestParam String accNo, @RequestParam String password, @RequestParam Integer amt) {
-        if(accountService.depositBalance(accNo, password, amt)) {
-            transactionService.deposit(accNo, amt);
+    public String deposit(@RequestBody DepositDao accDetails) {
+        if(accountService.depositBalance(accDetails.getAccNo(), accDetails.getPassword(), accDetails.getAmt())) {
+            transactionService.deposit(accDetails.getAccNo(), accDetails.getAmt());
             return "deposit success";
         }
         return "deposit failed";
     }
 
     @PostMapping(value="/withdraw")
-    public String withdraw(@RequestParam String accNo, @RequestParam String password, @RequestParam Integer amt) {
-        if(accountService.withdrawBalance(accNo, password, amt)) {
-            transactionService.withdraw(accNo, amt);
+    public String withdraw(@RequestBody WithdrawDao withdrawDao) {
+        if(accountService.withdrawBalance(withdrawDao.getAccNo(), withdrawDao.getPassword(), withdrawDao.getAmt())) {
+            transactionService.withdraw(withdrawDao.getAccNo(), withdrawDao.getAmt());
             return "withdraw success";
         }
         return "withdraw failed";

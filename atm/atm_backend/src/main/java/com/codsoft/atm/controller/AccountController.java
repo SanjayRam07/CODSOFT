@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.codsoft.atm.dto.AccountDto;
+import com.codsoft.atm.dao.AccountDao;
 import com.codsoft.atm.model.Account;
 import com.codsoft.atm.service.AccountService;
 
@@ -30,21 +30,21 @@ public class AccountController {
     }
 
     @GetMapping("/showAll")
-    public List<AccountDto> showAllAccounts() {
+    public List<AccountDao> showAllAccounts() {
         List<Account> accList=accountService.findAllAcc();
-        List<AccountDto> accDtoList=new ArrayList();
+        List<AccountDao> accDtoList=new ArrayList<>();
         
         for(Account acc:accList) {
-            accDtoList.add(new AccountDto(acc));
+            accDtoList.add(new AccountDao(acc));
         }
 
         return accDtoList;
     }
 
     @GetMapping("/getAccount")
-    public AccountDto findAccount(@RequestParam String accNo) {
+    public AccountDao findAccount(@RequestParam String accNo) {
         Account account=accountService.findByAccNo(accNo);
-        return new AccountDto(account);
+        return new AccountDao(account);
     }
 
     @DeleteMapping("/delete")

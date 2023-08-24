@@ -108,10 +108,15 @@ public class AccountService {
 
     public boolean validate(String accNo, String password) {
         Account account=accountRepo.findByAccNo(accNo);
-        if(account.getPassword()==null || account.getPassword().equals(password)) 
+        try {
+            String accPwd=account.getPassword();
+            if(accPwd==null || accPwd.equals(password)) 
             return true;
-        else
+        }
+        catch(Exception e) {
             return false;
+        }
+        return false;
     }
 
 }

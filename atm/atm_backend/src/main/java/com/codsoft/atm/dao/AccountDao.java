@@ -1,15 +1,15 @@
-package com.codsoft.atm.dto;
+package com.codsoft.atm.dao;
 
 import com.codsoft.atm.model.Account;
 
-public class AccountDto {
+public class AccountDao {
     
     private String accNo;
     private String accHolderName;
     private String accType;
     private Integer balance;
 
-    public AccountDto(Account account) {
+    public AccountDao(Account account) {
         this.accNo=account.getAccNo();
         this.accHolderName=account.getAccHolderName();
         this.accType=account.getAccType();

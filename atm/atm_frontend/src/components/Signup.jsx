@@ -2,36 +2,45 @@ import { useEffect, useState } from "react"
 import { NavLink } from "react-router-dom";
 
 export const Signup = () => {
+    const [accName, setAccName] = useState("")
+    const [password, setPassword] = useState("");
+    const [accType, setAccType] = useState("");
 
-    const [AccType, setAccType] = useState("");
-
-    useEffect(() => {
-
-    }, [])
+        const signup = async () => {
+            const response = await fetch("http://localhost:5000/account/create",{
+                method: "POST",
+                body: JSON.stringify({"accHolderName": accName,"accType": accType,"balance": 0,"password": password}),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then((response) => {console.log(response)})
+            .catch(error => {console.log(error)});
+        }
 
     return (
         <div class="d-inline-flex justify-content-center align-content-center">
         <form class="container row justify-content-center align-items-center g-3">
             <div class="col-md-6">
                 <label for="AccHolderName" class="form-label">Account Holder Name</label>
-                <input type="text" class="form-control" id="AccHolderName"/>
+                <input type="text" class="form-control" id="AccHolderName" onChange={(event) => {setAccName(event.target.value)}}/>
             </div>
             <span></span>
             <div class="col-md-6">
                 <label for="Password" class="form-label">Password</label>
-                <input type="password" class="form-control" id="Password"/>
+                <input type="password" class="form-control" id="Password" onChange={(event) => {setPassword(event.target.value)}}/>
             </div>
             <span></span>
             <div class=" row-2 col-2 justify-content-center align-content-center">
                 <label class="form-label" type="text">Account Type</label>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="savings"/>
+                    <input class="form-check-input" type="radio" value="savings" id="savings" name="accType" checked={accType==='savings'} onChange={(e)=>{setAccType(e.target.value)}}/>
                     <label class="form-check-label" for="savings">
                         Savings
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="current"/>
+                    <input class="form-check-input" type="radio" value="current" id="current" name="accType" checked={accType==='current'} onChange={(e)=>{setAccType(e.target.value)}}/>
                     <label class="form-check-label" for="current">
                         Current
                     </label>
@@ -48,8 +57,10 @@ export const Signup = () => {
             </div>
             <span></span>
             <div class="row col-3 g-3">
-                <button type="submit" class="btn btn-primary">Sign Up</button>
-                <NavLink to="/signin" type="submit" class="btn btn-secondary">Sign In</NavLink>
+            <NavLink class="nav-link btn btn-primary" to='/signin' type="submit">
+                <button type="submit" class="btn btn-primary" onClick={() => signup()}>Sign Up</button>
+            </NavLink>
+            <NavLink to="/signin" type="submit" class="btn btn-secondary">Sign In</NavLink>
             </div>
         </form>
     </div>
