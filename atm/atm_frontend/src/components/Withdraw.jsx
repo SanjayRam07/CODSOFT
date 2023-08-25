@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
-import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom"
 import Navbar from './Navbar';
 
 
-export default function Withdraw() {
+export default function Withdraw( { refreshData, handleRefreshData } ) {
 
   const [amt, setAmt] = useState("");
   const [password, setPassword] = useState("");
@@ -14,13 +13,22 @@ export default function Withdraw() {
 
   const withdraw = async () => {
     console.log(sessionValue.accNo);
-    const wd = await fetch("http://localhost:5000/transaction/withdraw",{
+    const res = await fetch("http://localhost:5000/transaction/withdraw",{
         method:"POST",
         body: JSON.stringify({"accNo":sessionValue.accNo, "password":password, "amt":amt}),
         headers: {
             "Content-Type":"application/json"
         }
     });
+    if (res.ok) {
+        const newBalance = sessionValue.balance - parseFloat(amt);
+        const updatedUserData = {
+          ...sessionValue,
+          balance: newBalance,
+        };
+        sessionStorage.setItem('user', JSON.stringify(updatedUserData));
+        handleRefreshData(!refreshData);
+      }
   }
 
   return (

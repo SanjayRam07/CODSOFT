@@ -1,6 +1,5 @@
 import React,{useState} from 'react'
-import { useDispatch, useSelector } from "react-redux";
-import { NavLink, useNavigate } from "react-router-dom"
+import { NavLink } from "react-router-dom"
 import Navbar from './Navbar';
 
 export default function Deposit( { refreshData, handleRefreshData } ) {
@@ -13,14 +12,22 @@ export default function Deposit( { refreshData, handleRefreshData } ) {
 
   const deposit = async () => {
     console.log(sessionValue.accNo);
-    const dep = await fetch("http://localhost:5000/transaction/deposit",{
+    const res = await fetch("http://localhost:5000/transaction/deposit",{
         method:"POST",
         body: JSON.stringify({"accNo":sessionValue.accNo, "password":password, "amt":amt}),
         headers: {
             "Content-Type":"application/json"
         }
     });
-    await handleRefreshData(!refreshData);
+    if (res.ok) {
+        const newBalance = sessionValue.balance + parseFloat(amt);
+        const updatedUserData = {
+          ...sessionValue,
+          balance: newBalance,
+        };
+        sessionStorage.setItem('user', JSON.stringify(updatedUserData));
+        handleRefreshData(!refreshData);
+      }
   }
 
   return (

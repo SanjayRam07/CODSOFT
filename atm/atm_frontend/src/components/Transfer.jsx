@@ -1,15 +1,35 @@
 import React, { useState } from 'react'
-import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom"
 import Navbar from './Navbar';
 
-export default function Transfer() {
+export default function Transfer( { refreshData, handleRefreshData } ) {
 
   const [amt, setAmt] = useState("");
   const [AccTo, setAccTo] = useState("");
   const [password, setPassword] = useState("");
 
-  const dispatch = useDispatch();
+  const sessionJson = sessionStorage.getItem('user');
+  const sessionValue = JSON.parse(sessionJson);  
+
+  const transact = async () => {
+    console.log(sessionValue.accNo);
+    const res = await fetch("http://localhost:5000/transaction/transfer",{
+        method:"POST",
+        body: JSON.stringify({"accFrom":sessionValue.accNo, "accTo":AccTo, "amt":amt, "password":password}),
+        headers: {
+            "Content-Type":"application/json"
+        }
+    });
+    if (res.ok) {
+        const newBalance = sessionValue.balance - parseFloat(amt);
+        const updatedUserData = {
+          ...sessionValue,
+          balance: newBalance,
+        };
+        sessionStorage.setItem('user', JSON.stringify(updatedUserData));
+        handleRefreshData(!refreshData);
+      }
+  }
 
   return (
     <>
@@ -41,7 +61,7 @@ export default function Transfer() {
                 </div>
                 <span></span>
                 <div className="row col-3 g-3">
-                    <NavLink to='/home' onClick={() => dispatch()} type="submit" className="btn btn-primary">Transfer</NavLink>
+                    <NavLink to='/home' onClick={() => transact()} type="submit" className="btn btn-primary">Transfer</NavLink>
                 </div>
             </form>
         </div>

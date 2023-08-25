@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codsoft.atm.dao.DepositDao;
+import com.codsoft.atm.dao.TransferDao;
 import com.codsoft.atm.dao.WithdrawDao;
 import com.codsoft.atm.model.Transaction;
 import com.codsoft.atm.service.AccountService;
@@ -15,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 @RestController
@@ -47,9 +47,9 @@ public class TransactionController {
     }
 
     @PostMapping("/transfer")
-    public String transfer(@RequestParam String accFrom, @RequestParam String accTo, @RequestParam String password, @RequestParam int amt) {
-        if(accountService.transferBalance(accFrom, accTo, password, amt)) {
-            transactionService.transfer(accFrom, accTo, amt);
+    public String transfer(@RequestBody TransferDao transferDao) {
+        if(accountService.transferBalance(transferDao.getAccFrom(), transferDao.getAccTo(), transferDao.getPassword(), transferDao.getAmt())) {
+            transactionService.transfer(transferDao.getAccFrom(), transferDao.getAccTo(), transferDao.getAmt());
             return "transfer success";
         }
         return "transfer failed";

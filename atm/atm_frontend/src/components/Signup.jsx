@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { NavLink } from "react-router-dom";
 
 export const Signup = () => {
@@ -7,7 +7,7 @@ export const Signup = () => {
     const [accType, setAccType] = useState("");
 
         const signup = async () => {
-            const response = await fetch("http://localhost:5000/account/create",{
+            await fetch("http://localhost:5000/account/create",{
                 method: "POST",
                 body: JSON.stringify({"accHolderName": accName,"accType": accType,"balance": 0,"password": password}),
                 headers: {
@@ -52,15 +52,15 @@ export const Signup = () => {
                     <input class="form-check-input" type="checkbox" id="gridCheck"/> 
                 </div>
                 <div class="col">    
-                    <label class="form-check-label" for="gridCheck"><a href="#"> Accept terms & conditions</a> </label>
+                    <label class="form-check-label " for="gridCheck"><a href="#/"> Accept terms & conditions</a> </label>
                 </div>
             </div>
             <span></span>
-            <div class="row col-3 g-3">
-            <NavLink class="nav-link btn btn-primary" to='/signin' type="submit">
-                <button type="submit" class="btn btn-primary" onClick={() => signup()}>Sign Up</button>
-            </NavLink>
-            <NavLink to="/signin" type="submit" class="btn btn-secondary">Sign In</NavLink>
+            <div className="row g-3 col-3">
+                <NavLink className="btn btn-primary" to='/signin' onClick={() => signup() } type="submit">
+Sign Up 
+                </NavLink>
+                <NavLink to="/signin" type="submit" className="btn btn-secondary">Sign In</NavLink>
             </div>
         </form>
     </div>

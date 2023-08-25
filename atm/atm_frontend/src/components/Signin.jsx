@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom"
 import {signin} from '../redux/features/user'
-import {accDetails} from '../redux/features/account'
+import "./Signin.css"
 
 export const Signin = () => {
     const [id, setId] = useState("");
@@ -11,24 +11,26 @@ export const Signin = () => {
     const dispatch = useDispatch();
 
     return (
-    <div className="d-inline-flex justify-content-center align-content-center">
+        <div className="image">
+    <div className="d-inline-flex justify-content-center align-content-center log-form">
         <form className="container row justify-content-center align-items-center g-3" onSubmit="return false;" method="post">
             <div className="col-md-6">
                 <label for="AccountNo" className="form-label">Account Number</label>
-                <input type="text" className="form-control" id="AccountNo" onChange={(event) => {setId(event.target.value)}}/>
+                <input type="text" className="form-control border border-secondary" id="AccountNo" onChange={(event) => {setId(event.target.value)}}/>
             </div>
             <span></span>
             <div className="col-md-6">
                 <label for="Password" className="form-label">Password</label>
-                <input type="password" className="form-control" id="password" onChange = {(event) => {setPassword(event.target.value)}}/>
+                <input type="password" className="form-control border border-secondary" id="password" onChange = {(event) => {setPassword(event.target.value)}}/>
             </div>
             <span></span>
-            <div className="row col-3 gx-2">
-                <div className="col-1">    
-                    <input className="form-check-input" type="checkbox" id="gridCheck"/> 
+            <span></span>
+            <div class="row col-3 gx-2">
+                <div class="col-1">    
+                    <input className="form-check-input border border-secondary" type="checkbox" id="gridCheck"/> 
                 </div>
-                <div className="col">    
-                    <label className="form-check-label" for="gridCheck"><a href="#"> Accept terms & conditions</a> </label>
+                <div class="col">    
+                    <label className="form-check-label terms " for="gridCheck"><a href="#/"> Accept terms & conditions</a> </label>
                 </div>
             </div>
             <span></span>
@@ -39,6 +41,7 @@ Sign In
                 <NavLink to="/signup" type="submit" className="btn btn-secondary">Sign Up</NavLink>
             </div>
         </form>
+    </div>
     </div>
     )
 }

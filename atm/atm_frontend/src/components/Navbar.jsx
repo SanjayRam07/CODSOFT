@@ -1,8 +1,13 @@
 import React from 'react'
 
 export default function Navbar() {
+
+  const logout = () => {
+    sessionStorage.clear();
+  }
+
   return (
-<nav className="navbar navbar-expand-lg navbar-light bg-light">
+<nav className="navbar navbar-expand-lg navbar-light bg-grey">
   <div className="container-fluid">
     <a className="navbar-brand" href="/home">ATM</a>
     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -15,6 +20,7 @@ export default function Navbar() {
         <a className="nav-link" href="/transfer">Transfer</a>
       </div>
     </div>
+    <a className="nav-link" href="/" onClick={logout()}>Logout</a>
   </div>
 </nav>
   )
